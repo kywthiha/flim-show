@@ -41,4 +41,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function timeScheduleConfirguations()
+    {
+        return $this->hasMany(TimeScheduleConfirguation::class);
+    }
+
+    public function timeSchedules()
+    {
+        return $this->hasMany(TimeSchedule::class);
+    }
+
+    public function busSchedules()
+    {
+        return $this->hasMany(BusSchedule::class);
+    }
 }
