@@ -26,7 +26,7 @@ class BusScheduleRepository implements BusScheduleRepositoryInterface
         $busSchedule->delete();
     }
 
-    public function getBusSchedule(User $user): BusSchedule
+    public function getBusSchedule(User $user): ? BusSchedule
     {
         return $user->busSchedules()->latest()->first();
     }

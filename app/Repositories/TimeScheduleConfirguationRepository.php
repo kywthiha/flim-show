@@ -26,7 +26,7 @@ class TimeScheduleConfirguationRepository implements TimeScheduleConfirguationRe
         $timeScheduleConfirguation->delete();
     }
 
-    public function getTimeScheduleConfirguation(User $user): TimeScheduleConfirguation
+    public function getTimeScheduleConfirguation(User $user): ?TimeScheduleConfirguation
     {
         return $user->timeScheduleConfirguations()->latest()->first();
     }

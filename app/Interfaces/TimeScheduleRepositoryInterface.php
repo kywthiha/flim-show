@@ -10,5 +10,5 @@ interface TimeScheduleRepositoryInterface
     public function store(User $user, array $data): TimeSchedule;
     public function update(TimeSchedule $timeSchedule): TimeSchedule;
     public function delete(TimeSchedule $timeSchedule): void;
-    public function getTimeSchedule(User $user): TimeSchedule;
+    public function getTimeSchedule(User $user): ? TimeSchedule;
 }

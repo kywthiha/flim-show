@@ -24,7 +24,7 @@ class TimeScheduleRepository implements TimeScheduleRepositoryInterface
         $timeSchedule->delete();
     }
 
-    public function getTimeSchedule(User $user): TimeSchedule
+    public function getTimeSchedule(User $user):? TimeSchedule
     {
         return $user->timeSchedules()->latest()->first();
     }
