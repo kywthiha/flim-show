@@ -7,6 +7,7 @@ use App\Interfaces\TimeScheduleConfirguationRepositoryInterface;
 use App\Interfaces\TimeScheduleRepositoryInterface;
 use App\Models\TimeScheduleConfirguation;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TimeScheduleConfirguationController extends Controller
 {
@@ -25,7 +26,13 @@ class TimeScheduleConfirguationController extends Controller
      */
     public function index()
     {
-        //
+        $timeScheduleConfirguation = $this->timeScheduleConfirguationRepository->getTimeScheduleConfirguation(auth()->user());
+
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $timeScheduleConfirguation,
+            ], Response::HTTP_OK);
     }
 
 
@@ -39,6 +46,10 @@ class TimeScheduleConfirguationController extends Controller
     {
         $timeScheduleConfirguation = $this->timeScheduleConfirguationRepository->store(auth()->user(), $request->validated());
 
-        return response()->json($timeScheduleConfirguation);
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $timeScheduleConfirguation,
+            ], Response::HTTP_CREATED);
     }
 }

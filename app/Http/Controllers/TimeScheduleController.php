@@ -9,6 +9,7 @@ use App\Interfaces\TimeScheduleRepositoryInterface;
 use App\Models\TimeSchedule;
 use App\Services\TimeScheduleService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TimeScheduleController extends Controller
 {
@@ -18,13 +19,12 @@ class TimeScheduleController extends Controller
     private TimeScheduleService $timeScheduleService;
     private TimeScheduleConfirguationRepositoryInterface $timeScheduleConfirguationRepository;
 
-    public function __construct(TimeScheduleRepositoryInterface $timeScheduleRepository,TimeScheduleConfirguationRepositoryInterface $timeScheduleConfirguationRepository, BusScheduleRepositoryInterface $busScheduleRepository, TimeScheduleService $timeScheduleService)
+    public function __construct(TimeScheduleRepositoryInterface $timeScheduleRepository, TimeScheduleConfirguationRepositoryInterface $timeScheduleConfirguationRepository, BusScheduleRepositoryInterface $busScheduleRepository, TimeScheduleService $timeScheduleService)
     {
         $this->timeScheduleRepository = $timeScheduleRepository;
         $this->timeScheduleConfirguationRepository = $timeScheduleConfirguationRepository;
         $this->busScheduleRepository = $busScheduleRepository;
         $this->timeScheduleService = $timeScheduleService;
-
     }
 
 
@@ -35,7 +35,13 @@ class TimeScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $timeSchedule = $this->timeScheduleRepository->getTimeSchedule(auth()->user());
+
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $timeSchedule,
+            ], Response::HTTP_OK);
     }
 
 
@@ -48,8 +54,11 @@ class TimeScheduleController extends Controller
     public function store(StoreTimeScheduleRequest $request)
     {
         $timeSchedule = $this->timeScheduleRepository->store(auth()->user(), $request->validated());
-
-        return response()->json($timeSchedule);
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $timeSchedule,
+            ], Response::HTTP_CREATED);
     }
 
     /**
@@ -101,7 +110,11 @@ class TimeScheduleController extends Controller
     {
         $timeScheduleConfirguation = $this->timeScheduleConfirguationRepository->getTimeScheduleConfirguation(auth()->user());
         $busSchedule = $this->busScheduleRepository->getBusSchedule(auth()->user());
-        $timeSchedule = $this->timeScheduleService->catchMovieTime($busSchedule, $timeScheduleConfirguation);
-        return response()->json($timeSchedule);
+        $catchMovieTime = $this->timeScheduleService->catchMovieTime($busSchedule, $timeScheduleConfirguation);
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $catchMovieTime,
+            ], Response::HTTP_OK);
     }
 }

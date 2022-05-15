@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBusScheduleRequest;
 use App\Interfaces\BusScheduleRepositoryInterface;
 use App\Models\BusSchedule;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BusScheduleController extends Controller
 {
@@ -24,7 +25,13 @@ class BusScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $busSchedule = $this->busScheduleRepository->getBusSchedule(auth()->user());
+
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $busSchedule,
+            ], Response::HTTP_OK);
     }
 
     /**
@@ -47,7 +54,11 @@ class BusScheduleController extends Controller
     {
         $busSchedule = $this->busScheduleRepository->store(auth()->user(), $request->validated());
 
-        return response()->json($busSchedule);
+        return response()
+            ->json([
+                "message" => "Success",
+                'data' =>  $busSchedule,
+            ], Response::HTTP_CREATED);
     }
 
     /**

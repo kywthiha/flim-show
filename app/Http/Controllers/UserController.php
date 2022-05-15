@@ -57,9 +57,11 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
+        $user = $request->user();
+        $user->loadCount(['busSchedules','timeSchedules','timeScheduleConfirguations']);
         return response()->json([
             'message' => 'Successfully',
-            'data' => $request->user(),
+            'data' => $user,
         ], Response::HTTP_OK);
     }
 }
